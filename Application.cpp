@@ -366,6 +366,67 @@ void Application :: renderAddNewTripMenu() const {
         ss << vehicle->getPricePerKm();
 
         string price = ss.str() + " Rs/Km";
+
+        cout<<"|"<<registrationNo<<string(7, ' ')<<"|"<<seats<<string(7 - seats.length(), ' ')<<"|"<<price<<string(14 - price.length(), ' ')<<"|"<<endl;
+    }
+
+    int offset = int (freeVehicles.size()) + 2;
+
+    gotoXY(0, 12 + offset);
+    cout<<registrationNoLabel;
+
+    gotoXY(int(registrationNoLabel.length()), 12 + offset);
+    getline(cin, registrationNo);
+
+    try{
+        vehicle = this->db->getVehicle(registrationNo);
+    }
+    catch(Error e) {
+        this->showDialog(e.getMessage());
+        return;
+    }
+
+    long userId = user->getRecordId();
+    long vehicleId = vehicle->getRecordId();
+
+    Trip * trip;
+    try {
+        trip = new Trip(this->db->getVehicleRef()->getRecordForId(vehicleId), this->db->getUserRef()->getRecordForId(userId), Date(startDate), Date(endDate));
+        this->db->addNewRecord(trip);
+        stringstream ss;
+        ss<<"Trip Id: "<<trip->getRecordId();
+        showDialog("Trip added successfully", ss.str() );
+    }
+    catch (Error e) {
+        showDialog(e.getMessage());
+    }
+    delete trip;
+}
+
+void Application :: renderViewTripMenu () const {
+    string header = "Enter trip id: ";
+    long tripId;
+    system("clear");
+
+    gotoXY(0, 1);
+    cout<<header;
+
+    gotoXY(int(header.length()), 1);
+    cin>>tripId;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    gotoXY(0, 3);
+    try {
+        auto trip = this->db->getTripRef()->getRecordForId(tripId);
+        trip->display();
+
+        cout<<endl<<"Press any key to continue";
+        cin.get();
+    }
+    catch (Error e) {
+        this->showDialog(e.getMessage());
     }
 
 }
+
+void Application :: 
