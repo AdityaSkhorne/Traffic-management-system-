@@ -275,6 +275,97 @@ void Application :: renderAddNewUserMenu ( ) const {
 
     try{
         user = new User(name, contact, email);
-        
+        this->db->addNewRecord(user);
+        stringstream ss;
+        ss << "User Id: " << user->getRecordId();
+        showDialog ("User added successfully", ss.str() );
     }
+    catch (Error e) {
+        showDialog ( e.getMessage() );
+    }
+    delete user;
+}
+
+void Application :: renderAddNewTripMenu() const {
+    string header = "Enter details of Trip (All fields are required)";
+
+    string userContactLabel = "Enter contact number of user: ";
+    string startDateLabel = "Enter start date of Trip (d/m/yyyy): ";
+    string endDateLabel = "Enter end date of Trip (d/m/yyyy): ";
+    string vehicleTypeLabel = "Enter vehicle type: ";
+    string vehicleOptionLabel = "(1. Bike, 2. Car, 3. Towera)";
+    string registrationNoLabel = "Enter registration no of vehicle: ";
+
+    string contactNo;
+    string startDate;
+    string endDate;
+    int vehicleType;
+    string registrationNo;
+
+    const User * user;
+    const Vehicle * vehicle;
+
+    system("clear");
+
+    gotoXY(0, 1);
+    cout<<userContactLabel;
+
+    gotoXY(int(userContactLabel.length()), 1);
+    getline(cin, contactNo);
+
+    try {
+        user = this->db->getUser(contactNo);
+        gotoXY(0, 3);
+        cout<<"User found: "<<user->getName();
+    }
+    catch (Error e) {
+        this->showDialog(e.getMessage());
+    }
+
+    gotoXY(0, 5);
+    cout<<header;
+
+    gotoXY(0, 7);
+    cout<<startDateLabel;
+    
+    gotoXY(0, 8);
+    cout<<endDateLabel;
+    
+    gotoXY(0, 9);
+    cout<<vehicleTypeLabel;
+    
+    gotoXY(0, 10);
+    cout<<vehicleOptionLabel;
+    
+    gotoXY(int(startDateLabel.length()), 7);
+    getline(cin, startDate);
+    
+    gotoXY(int(endDateLabel.length()), 8);
+    getline(cin, endDate);
+
+    gotoXY(int(vehicleTypeLabel.length()), 9);
+    cin>>vehicleType;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    auto freeVehicles = this->db->getVehicle(Date(startDate), Date(endDate), VehicleType(vehicleType));
+    if (freeVehicles.size() == 0) {
+        this->showDialog("No vehicles are free in given date range");
+        return;
+    }
+
+    gotoXY(0, 12);
+    cout<<"|Registration No  |"<<"Seats  |"<<"Price per km  |"<<endl;
+
+    for(auto & vehicle : freeVehicles) {
+        string registrationNo = vehicle->getRegistrationNumber();
+        string seats = to_string(vehicle->getSeats());
+
+        stringstream ss;
+        ss << std::fixed;
+        ss << std::setprecision(2);
+        ss << vehicle->getPricePerKm();
+
+        string price = ss.str() + " Rs/Km";
+    }
+
 }
