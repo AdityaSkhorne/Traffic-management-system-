@@ -526,5 +526,49 @@ void Application :: showDialog (string message, string id) const {
     cout<<"*";
     gotoXY(leftOffset + length - 1, lineOffset++);
     cout<<"*";
+    
+    gotoXY(leftOffset, lineOffset);
+    cout<<"*";
+    gotoXY((80 - messageLength) / 2, lineOffset);
+    cout<<message;
+    gotoXY(leftOffset + length - 1, lineOffset++);
+    cout<<"*";
+
+    if(id != "") {
+        gotoXY(leftOffset, lineOffset);
+        cout<<"*";
+        gotoXY((int)((80 - int (id.length())) / 2), lineOffset);
+        cout<<id;
+        gotoXY(leftOffset + length - 1, lineOffset++);
+        cout<<"*";
+    }
+    
+    gotoXY(leftOffset, lineOffset);
+    cout<<"*"; 
+    gotoXY((int)((80 - infoLength) / 2), lineOffset);
+    cout<<pressAnyKey;
+    gotoXY(leftOffset + length - 1, lineOffset++);
+    cout<<"*";
+
+    gotoXY(leftOffset, lineOffset);
+    cout<<"*";
+    gotoXY(leftOffset + length - 1, lineOffset++);
+    cout<<"*";
+
+    gotoXY(leftOffset, lineOffset++);
+    cout<<"******************************************************";
+
+    cin.get();
+}
+
+void Application :: welcome ( ) {
+    system("clear");
+
+    gotoXY(25, 5);
+    cout<<"Welcome to Vehicle Rental System!"<<endl;
+    gotoXY(27, 23);
+    cout<<"Press any key to continue";
+    
+    cin.get();
 
 }
