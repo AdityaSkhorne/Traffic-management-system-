@@ -571,4 +571,13 @@ void Application :: welcome ( ) {
     
     cin.get();
 
+    this->renderMenu();
+}
+
+void Application :: start() {
+    welcome();
+}
+
+void Application :: cleanMemory() {
+    delete db;
 }
