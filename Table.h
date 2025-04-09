@@ -11,29 +11,29 @@
 using namespace std;
 
 template <class T> class Table {
-    private:
-       string fileName;
-       fstream fileStream;
+private:
+    string fileName;
+    fstream fileStream;
 
-       vector<Storable *> * records = NULL;
+    vector<Storable *> * records = NULL;
 
-       T * getReferenceOfRecordForId (long recordId) const throw (NoSuchRecordError); 
+    T * getReferenceOfRecordForId (long recordId) const;
 
-       void writeTofile() throw (IOError);
+    void writeTofile();
 
-       const T* const addNewRecord (T data) throw (MemoryError, IOError);
+    const T* const addNewRecord (T data);
 
-       void updateRecord (T updateRecord) throw (IOError, NoSuchRecordError);
+    void updateRecord (T updateRecord);
 
-    public:
-       Table (string fileName) throw (MemoryError);
-       ~Table();
+public:
+    Table (string fileName);
+    ~Table();
 
-       long getNextRecordId() const;
+    long getNextRecordId() const;
 
-       const T* const getRecordForId (long recordId) const throw (NoSuchRecordError);
+    const T* const getRecordForId (long recordId) const;
 
-       friend class Database;   
+    friend class Database;
 };
 
 #endif
