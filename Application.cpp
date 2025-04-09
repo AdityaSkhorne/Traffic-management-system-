@@ -429,4 +429,102 @@ void Application :: renderViewTripMenu () const {
 
 }
 
-void Application :: 
+void Application :: renderStartTripMenu () const {
+    string header = "Enter trip id: ";
+    string readingLabel = "Enter odometer reading: ";
+
+    long tripId;
+    long startReading;
+    
+    system("clear");
+
+    gotoXY(0, 1);
+    cout<<header;
+
+    gotoXY(0, 2);
+    cout<<readingLabel;
+
+    gotoXY(int(header.length()), 1);
+    cin>>tripId;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    gotoXY(int(readingLabel.length()), 2);
+    cin>>startReading;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    Trip * modifiedTrip;
+    
+    try{
+        auto trip = this->db->getTripRef()->getRecordForId(tripId);
+        modifiedTrip = new Trip (*trip);
+        modifiedTrip->startTrip(startReading);
+
+        this->db->updateRecord(modifiedTrip);
+        showDialog("Trip started successfully");
+    }
+    catch (Error e) {
+        this->showDialog(e.getMessage());
+    }
+
+    delete modifiedTrip;
+}
+
+void Application :: renderCompleteTripMenu () const {
+    string header = "Enter trip id: ";
+    string readingLabel = "Enter odometer reading: ";
+
+    long tripId;
+    long endReading;
+
+    system("clear");
+
+    gotoXY(0, 1);
+    cout<<header;
+
+    gotoXY(0, 2);
+    cout<<readingLabel;
+    
+    gotoXY(int(header.length()), 1);
+    cin>>tripId;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    gotoXY(int(readingLabel.length()), 2);
+    cin>>endReading;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    try{
+        auto trip = this->db->getTripRef()->getRecordForId(tripId);
+        Trip * modifiedTrip = new Trip (*trip);
+        auto fare = modifiedTrip->completeTrip(endReading);
+        this->db->updateRecord(modifiedTrip);
+
+        stringstream ss;
+        ss << "Total Fare: " << fare;
+        showDialog("Trip completed successfully", ss.str());
+    }
+    catch (Error e) {
+        this->showDialog(e.getMessage());
+    }
+}
+
+void Application :: showDialog (string message, string id) const {
+    auto messageLength = int (message.length());
+
+    string pressAnyKey = "Press any key to continue";
+    int infoLength = int (pressAnyKey.length());
+
+    int leftOffset = 15;
+    int length = 50;
+    int lineOffset = 9;
+
+    system("clear");
+
+    gotoXY(leftOffset, lineOffset++);
+    cout<<"******************************************************";
+
+    gotoXY(leftOffset, lineOffset);
+    cout<<"*";
+    gotoXY(leftOffset + length - 1, lineOffset++);
+    cout<<"*";
+
+}
