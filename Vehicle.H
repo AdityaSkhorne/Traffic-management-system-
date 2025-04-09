@@ -7,7 +7,7 @@
 #include<string>
 using namespace std;
 
-typedef enum() {bike = 1, car = 2, towera = 3} VehicleType;
+typedef enum VehicleType { bike = 1, car = 2, towera = 3 } VehicleType;
 
 class Vehicle : public Storable {
     private:
@@ -35,6 +35,6 @@ class Vehicle : public Storable {
        string toString ( ) const;
        void setDataFrom (Storable * s);
        
-}:
+};
 
 #endif

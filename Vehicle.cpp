@@ -21,11 +21,11 @@ void Vehicle :: setPricePerKm (double newPrice) {this->pricePerKm = newPrice;}
 
 string Vehicle :: getVehicleTypeName() const {
     switch (this->type) {
-        case VehicleType :: bike;
+        case VehicleType :: bike:
              return "Bike";
-        case VehicleType :: car;
+        case VehicleType :: car:
              return "Car";
-        case VehicleType :: towera;
+        case VehicleType :: towera:
              return "Towera";
     default:
         return "";        
@@ -34,7 +34,7 @@ string Vehicle :: getVehicleTypeName() const {
 
 void Vehicle :: display( ) const {
     cout<<"Vehicle Details: "<<endl;
-    cout<<"Registration Number: "<<this->registrationNumber<<endl
+    cout<<"Registration Number: "<<this->registrationNumber<<endl;
     cout<<"VehicleType: "<<this->getVehicleTypeName()<<endl;
     cout<<"No. of Seats: "<<this->seats<<endl;
     cout<<"Company Name: "<<this->companyName<<endl;
