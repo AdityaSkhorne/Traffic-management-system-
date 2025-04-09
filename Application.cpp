@@ -1,4 +1,4 @@
-#include "application.h"
+#include "Application.h"
 #include "database_templates.cpp"
 
 #include <iostream>
