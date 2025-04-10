@@ -14,9 +14,9 @@ User :: User (string name, string contact, string email, long recordId) : Storab
 string User :: getName () const {return this->name;}
 string User :: getContact () const {return this->contact;}
 string User :: getEmail () const {return this->email;}
-void User :: setName (string newName) const {return this->name = newName;}
-void User :: setContact (string newContact) const {return this->contact = newContact;}
-void User :: setEmail (string newEmail) const {return this->email = newEmail;}
+void User::setName(string newName) { this->name = newName; }
+void User::setContact(string newContact) { this->contact = newContact; }
+void User::setEmail(string newEmail) { this->email = newEmail; }
 
 void User :: display () const {
     cout<<"User Details: "<<endl;

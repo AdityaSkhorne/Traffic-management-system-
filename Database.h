@@ -1,41 +1,44 @@
-#ifndef database_h
-#define database_h
+#ifndef DATABASE_H
+#define DATABASE_H
 
 #include "vehicle.h"
 #include "user.h"
 #include "trip.h"
-#include "table.cpp"
-#include "error.cpp"
+#include "table.h"
+#include "error.h"
 
-using namespace std;
+#include <string>
+#include <vector>
 
 class Database {
-    private:
-       Table<Vehicle> * vehicleTable;
-       Table<User> * userTable;
-       Table<Trip> * tripTable;
+private:
+    Table<Vehicle>* vehicleTable;
+    Table<User>* userTable;
+    Table<Trip>* tripTable;
 
-       void fetchAllVehicles() throw (IOError, MemoryError);
-       void fetchAllUsers() throw (IOError, MemoryError);
-       void fetchAllTrips() throw (IOError, MemoryError);
+    void fetchAllVehicles();
+    void fetchAllUsers();
+    void fetchAllTrips();
+    void cleanUp();
 
-       void cleanUp();
+public:
+    Database();
+    ~Database();
 
-    public:
-          Database() throw (MemoryError, IOError);
-          ~Database();
+    const Table<Vehicle>* getVehicleRef() const;
+    const Table<User>* getUserRef() const;
+    const Table<Trip>* getTripRef() const;
 
-          const Table<Vehicle> * const getVehicleRef() const;
-          const Table<User> * const getUserRef() const;
-          const Table<Trip> * const getTripRef() const;
+    const Vehicle* getVehicle(std::string registrationNo) const;
+    const User* getUser(std::string contactNo) const;
 
-          const Vehicle * const getVehicle (string registrationNo) const throw (NoSuchRecordError);
-          const User * const getUser (string contactNo) const throw (NoSuchRecordError);
+    std::vector<const Vehicle*> getVehicle(Date startDate, Date endDate, VehicleType type) const;
 
-          const vector<const Vehicle *> getVehicle (Date startDate, Date endDate, VehicleType type) const;
+    template <class T>
+    void addNewRecord(T* record);
 
-          template <class T> void addNewRecord (T * record) throw (IOError, MemoryError);
-          template <class T> void updateRecord (T * record) throw (IOError, NoSuchRecordError);
+    template <class T>
+    void updateRecord(T* record);
 };
 
 #endif

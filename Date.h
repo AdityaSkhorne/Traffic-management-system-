@@ -1,27 +1,25 @@
-#ifndef Date_h
-#define Date_h
+#ifndef DATE_H
+#define DATE_H
 
-#include "storable.cpp"
-
+#include "Serializable.h"
 #include <ctime>
 #include <string>
-using namespace std;
 
-typedef struct Date : Serializable {
-    private: 
-      bool empty;
-    public:
-      Date (string date);
-      Date ();
-      Date operator + (int days);
-
-      bool operator > (Date date) const;
-      bool operator >= (Date date) const;
-      bool operator < (Date date) const;
-      bool operator <= (Date date) const;
-      
-      bool isEmpty() const;
-      string toString() const;
-} Date;
+struct Date : Serializable {
+    struct tm date {};
+    bool empty;
+    
+    explicit Date(std::string dateStr);
+    Date();
+    
+    Date operator+(int days);
+    bool operator>(const Date& other) const;
+    bool operator>=(const Date& other) const;
+    bool operator<(const Date& other) const;
+    bool operator<=(const Date& other) const;
+    
+    bool isEmpty() const;
+    std::string toString() const override;
+};
 
 #endif

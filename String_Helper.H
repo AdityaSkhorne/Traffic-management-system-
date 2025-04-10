@@ -1,12 +1,9 @@
-#ifndef string_helper_h
-#define string_helper_h
+#ifndef STRING_HELPER_H
+#define STRING_HELPER_H
 
-#include<vector>
-#include<sstream>
-#include<iterator>
+#include <vector>
+#include <string>
 
-using namespace std;
-
-extern vector<std::string> split(const string & s, char delimiter);
+std::vector<std::string> split(const std::string& s, char delimiter);
 
 #endif

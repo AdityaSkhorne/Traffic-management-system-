@@ -1,9 +1,14 @@
 #include "Application.h"
 #include "database_templates.cpp"
 
+#include <limits>   
+#include <iomanip>
+
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+
+using namespace std;
 
 Application :: Application() {
     try{
